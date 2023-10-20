@@ -5,14 +5,22 @@ import matplotlib.pyplot as plt
 # La mitad del período
 l = 2.0
 
+def crear_funcion_desde_cadena(cadena):
+    try:
+        # Evalúa la cadena y crea una función
+        funcion = eval(f"lambda x: {cadena}")
+        return funcion
+    except:
+        # En caso de error, devuelve None
+        return None
+
+# Lee una cadena desde la terminal
+expresion = input("Ingresa la expresión matemática (ejemplo: x**2): ")
+
+# Crea la función a partir de la cadena
+funcion = crear_funcion_desde_cadena(expresion)
+
 # Define la función que deseas integrar
-def funcion(x):
-    if -2 <= x < 0:
-        return 0
-    elif 0 <= x < 2:
-        return 1
-    else:
-        return 0
 
 # Calcular a0
 result, error = quad(funcion, -l, l)
