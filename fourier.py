@@ -1,3 +1,4 @@
+import math
 from scipy.integrate import quad
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,13 +7,22 @@ from tkinter import simpledialog
 from tkinter import IntVar
 
 def crear_funcion_desde_cadena(cadena):
-    try:
-        # Evalúa la cadena y crea una función
-        funcion = eval(f"lambda x: {cadena}")
+    cadena = cadena.lower()  # Convertir la cadena a minúsculas para ser insensible a mayúsculas/minúsculas
+    if cadena in ['sen(x)', 'sin(x)', 'cos(x)']:
+        # Si la cadena representa sen(x), sin(x) o cos(x), crea la función correspondiente
+        if cadena in ['sen(x)', 'sin(x)']:
+            funcion = lambda x: math.sin(x)
+        else:
+            funcion = lambda x: math.cos(x)
         return funcion
-    except:
-        # En caso de error, devuelve None
-        return None
+    else:
+        try:
+            # Evalúa la cadena y crea una función
+            funcion = eval(f"lambda x: {cadena}")
+            return funcion
+        except:
+            # En caso de error, devuelve None
+            return None
 
 def obtener_datos():
     root = tk.Tk()
@@ -66,7 +76,11 @@ def obtener_datos():
     return expresion, expresion2, n, t
 
 def main():
-    expresion, expresion2, n, t = obtener_datos()
+    # expresion, expresion2, n, t = obtener_datos()
+    expresion = '0';
+    expresion2 = 'sen(x)'
+    n = 5;
+    t = 6.283185;
 
     # Crea la función a partir de la cadena
     print("Tramo 1:", expresion)
@@ -74,7 +88,6 @@ def main():
     if (expresion2):
        print("Tramo 2:", expresion2)
        funcion2 = crear_funcion_desde_cadena(expresion2)
-    
     funcion = crear_funcion_desde_cadena(expresion)
     
     # La mitad del período
