@@ -39,7 +39,7 @@ def serie_fourier(x, n, a0, ai, bi):
 
     # Suma para i desde 1 hasta n
     for i in range(1, n + 1):
-        suma += ai(i) * np.cos(n*x) + bi(i) * np.sin(n*x)
+        suma += ai(i) * np.cos(i*x) + bi(i) * np.sin(i*x)
     return suma
 
 # Crear una ventana emergente para ingresar el valor de n
