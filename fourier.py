@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import simpledialog
+from tkinter import IntVar
 
 def crear_funcion_desde_cadena(cadena):
     try:
@@ -19,18 +20,33 @@ def obtener_datos():
 
     dialog = tk.Toplevel()
     dialog.title("Ingrese los datos")
-    
-    expresion_label = tk.Label(dialog, text="Ingrese la expresión (ejemplo x**2):")
+
+    expresion_label = tk.Label(dialog, text="Expresión (ejemplo x**2):")
     expresion_entry = tk.Entry(dialog)
     expresion_label.pack()
     expresion_entry.pack()
 
-    n_label = tk.Label(dialog, text="Ingrese el valor de n:")
+    enable_expresion2 = IntVar()
+    expresion2_label = tk.Label(dialog, text="Segunda expresión:")
+    expresion2_entry = tk.Entry(dialog, state="disabled")
+    expresion2_label.pack()
+    expresion2_entry.pack()
+
+    def habilitar_expresion2():
+        if enable_expresion2.get() == 1:
+            expresion2_entry["state"] = "normal"
+        else:
+            expresion2_entry["state"] = "disabled"
+
+    radio_button = tk.Checkbutton(dialog, text="Habilitar segunda expresión", variable=enable_expresion2, command=habilitar_expresion2)
+    radio_button.pack()
+
+    n_label = tk.Label(dialog, text="Valor de n:")
     n_entry = tk.Entry(dialog)
     n_label.pack()
     n_entry.pack()
 
-    t_label = tk.Label(dialog, text="Ingrese el valor del periodo:")
+    t_label = tk.Label(dialog, text="Valor del periodo:")
     t_entry = tk.Entry(dialog)
     t_label.pack()
     t_entry.pack()
@@ -41,15 +57,16 @@ def obtener_datos():
     dialog.mainloop()
 
     expresion = expresion_entry.get()
+    expresion2 = expresion2_entry.get()
     n = int(n_entry.get())
     t = int(t_entry.get())
 
     dialog.destroy()
 
-    return expresion, n, t
+    return expresion, expresion2, n, t
 
 def main():
-    expresion, n, t = obtener_datos()
+    expresion, expresion2, n, t = obtener_datos()
 
     # Crea la función a partir de la cadena
     funcion = crear_funcion_desde_cadena(expresion)
