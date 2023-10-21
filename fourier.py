@@ -69,31 +69,67 @@ def main():
     expresion, expresion2, n, t = obtener_datos()
 
     # Crea la función a partir de la cadena
+    print("Tramo 1:", expresion)
+    funcion2 = 0
+    if (expresion2):
+       print("Tramo 2:", expresion2)
+       funcion2 = crear_funcion_desde_cadena(expresion2)
+    
     funcion = crear_funcion_desde_cadena(expresion)
-
+    
     # La mitad del período
     l = t / 2.0
 
     # Calcular a0
-    result, error = quad(funcion, -l, l)
+    # result, error = quad(funcion, -l, l)
+
+    result = 0
+    if (expresion2):
+        result1, error = quad(funcion, -l, 0)
+        result2, error = quad(funcion2, 0, l)
+        result = result1 + result2
+    else:
+        result, error = quad(funcion, -l, l)
     a0 = (1 / l) * result
 
     # Calcular ai
     def ai(n):
-        def aux(x):
+        def aux1(x):
             return np.cos((n / l) * np.pi * x) * funcion(x)
+        
+        def aux2(x):
+            return np.cos((n / l) * np.pi * x) * funcion2(x)
 
-        result, error = quad(aux, -l, l)
-        result = (1 / l) * result
+        # result, error = quad(aux1, -l, l)
+        # result = (1 / l) * result
+        result = 0
+        if (expresion2):
+            result1, error = quad(aux1, -l, 0)
+            result2, error = quad(aux2, 0, l)
+            result = (1 / l) * (result1 + result2)
+        else:
+            result, error = quad(aux1, -l, l)
+            result = (1 / l) * result
         return result
 
     # Calcular bi
     def bi(n):
-        def aux(x):
+        def aux1(x):
             return np.sin((n / l) * np.pi * x) * funcion(x)
+        
+        def aux2(x):
+            return np.sin((n / l) * np.pi * x) * funcion2(x)
 
-        result, error = quad(aux, -l, l)
-        result = (1 / l) * result
+        # result, error = quad(aux1, -l, l)
+        # result = (1 / l) * result
+        result = 0
+        if (expresion2):
+            result1, error = quad(aux1, -l, 0)
+            result2, error = quad(aux2, 0, l)
+            result = (1 / l) * (result1 + result2)
+        else:
+            result, error = quad(aux1, -l, l)
+            result = (1 / l) * result
         return result
 
     # Imprime los resultados de los coeficientes
@@ -114,11 +150,15 @@ def main():
     x_values = np.linspace(-2 * l, 2 * l, 1000)
     y_values = [serie_fourier(x, n, a0, ai, bi) for x in x_values]
     y_original = [funcion(x) for x in x_values]
+    y_original2 = []
 
     # Crear un gráfico
     plt.figure(figsize=(8, 6))
     plt.plot(x_values, y_values, label=f'Suma parcial (n={n})', color='b')
-    plt.plot(x_values, y_original, label='Coseno 2', linestyle=':', color='r')
+    plt.plot(x_values, y_original, label='f1', linestyle=':', color='r')
+    if (expresion2):
+        y_original2 = [funcion2(x) for x in x_values]
+        plt.plot(x_values, y_original2, label='f2', linestyle=':', color='b')
     plt.xlabel('x')
     plt.ylabel('y')
     plt.title('Serie de Fourier')
