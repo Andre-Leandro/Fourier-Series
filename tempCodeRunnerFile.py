@@ -1,1 +1,1 @@
-x_values_restringido
+s

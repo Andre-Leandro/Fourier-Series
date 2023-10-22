@@ -69,18 +69,18 @@ def obtener_datos():
     expresion = expresion_entry.get()
     expresion2 = expresion2_entry.get()
     n = int(n_entry.get())
-    t = int(t_entry.get())
+    t = float(t_entry.get())
 
     dialog.destroy()
 
     return expresion, expresion2, n, t
 
 def main():
-    # expresion, expresion2, n, t = obtener_datos()
-    expresion = '0';
-    expresion2 = 'sen(x)'
-    n = 5;
-    t = 6.283185;
+    expresion, expresion2, n, t = obtener_datos()
+    # expresion = '0';
+    # expresion2 = 'sen(x)'
+    # n = 30;
+    # t = 6.283185;
 
     # Crea la función a partir de la cadena
     print("Tramo 1:", expresion)

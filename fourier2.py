@@ -16,17 +16,17 @@ def funcion(x):
 
 # Calcular a0
 result, error = quad(funcion, -l, l)
-a0 = -np.pi/2
+a0 = 1
 
 # Calcular ai
 def ai(n):
-    result = (((-1)**n)-1)/(np.pi*(n**2))
+    result = (2*np.sin((n * np.pi)/2)/(n * np.pi))
     return result
 
 # Calcular bi
 def bi(n):
     result = ((1-2*((-1)**n)))/n
-    return result
+    return 0
 
 # Imprime los resultados de los coeficientes
 print("a0:", a0)
@@ -39,7 +39,7 @@ def serie_fourier(x, n, a0, ai, bi):
 
     # Suma para i desde 1 hasta n
     for i in range(1, n + 1):
-        suma += ai(i) * np.cos(i*x) + bi(i) * np.sin(i*x)
+        suma += ai(i) * np.cos(i*x*np.pi) + bi(i) * np.sin(i*x)
     return suma
 
 # Crear una ventana emergente para ingresar el valor de n
@@ -47,7 +47,7 @@ from tkinter.simpledialog import askinteger
 
 n = askinteger("Valor de n", "Ingrese el valor de n:")
 # t = askinteger("Valor del periodo", "Ingrese el valor del periodo:")
-t = 2*np.pi
+t = 2
 l = t/2
 
 # Verificar que se haya ingresado un valor válido para n
