@@ -117,7 +117,7 @@ def main():
             suma += ai(i) * np.cos((i / l) * np.pi * x) + bi(i) * np.sin((i / l) * np.pi * x)
         return suma
     
-    x_values = np.linspace(-2 * l, 2 * l, 1000)
+    x_values = np.linspace(-6 * l, 6 * l, 1000)
     y_values = [serie_fourier(x, n, a0, ai, bi) for x in x_values]
     y_original = [funcion(x) for x in x_values]
     y_original2 = []
